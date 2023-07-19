@@ -12,7 +12,7 @@ class Agent:
     def forward(self, board):
         value = np.matmul(board.flatten().T, self.weights) + self.biases
         softmax = np.exp(value) / (np.exp(value).sum() + 1e-6)
-        return softmax
+        return np.argmax(softmax)
         
     def mutate(self, mutation_rate=0.005):
         self.weights += np.random.randn(*self.weights.shape) * mutation_rate
@@ -22,11 +22,12 @@ class Agent:
         middle = self.field_size // 2
         self.pos = [middle, middle]
         
-    def reproduce(self, parent2=None, primary_bias=0.75, *, type='asexual'):
+    def reproduce(self, parent2=None, primary_bias=0.6, *, type='asexual'):
         if type == 'asexual':
             child = self
             child.score = 0.0
             return child
+        
         assert parent2 is not None
         
         weights_mask = np.random.choice([1, 0], p=[primary_bias, 1 - primary_bias], 
