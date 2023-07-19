@@ -21,7 +21,7 @@ class Evo:
               initial_mutation_rate: float=0.3,
               pairing_type: str='best', # 'best' or 'random'
               reproducing_percentage: float=0.25,
-              reproduction_type: str='asexual', #'sexual' or 'asexual'
+              reproduction_type: str='sexual', #'sexual' or 'asexual'
               output_path: str='results.pkl') -> None:
         best_agents = []
         high_scores = []
@@ -48,6 +48,7 @@ class Evo:
             reproducing_agents = sorted(zip(self.agents, scores), 
                                         key=lambda x: x[1], 
                                         reverse=True)[:n_reproducing]
+            
             if pairing_type == 'random':
                 random.shuffle(reproducing_agents)
             #tracking the best in generation
@@ -57,13 +58,20 @@ class Evo:
             #reproduction and mutation
             self.agents = []
             parent = iter(reproducing_agents)
-            for parent1, parent2 in zip(parent, parent):
-                for _ in range(int(1 / reproducing_percentage)):
-                    child = parent1[0].reproduce(parent2[0], 
-                                                 type=reproduction_type)
-                    #child = parent1[0].reproduce(type='asexual')
-                    child.mutate(mutation_rate=mutation_rate)
-                    self.agents.append(child)
+            match reproduction_type:
+                case 'sexual':
+                    for parent1, parent2 in zip(parent, parent):
+                        for _ in range(int(2 / reproducing_percentage)):
+                            child = parent1[0].reproduce(parent2[0], 
+                                                        type='sexual')
+                            child.mutate(mutation_rate=mutation_rate)
+                            self.agents.append(child)
+                case 'asexual':
+                    for parent0 in parent:
+                        for _ in range(int(1 / reproducing_percentage)):
+                            child = parent0[0].reproduce(type='asexual')                        
+                            child.mutate(mutation_rate=mutation_rate)
+                            self.agents.append(child)
             if generation % 1000 == 0:
                 print(f'Generation {generation}/{n_generations}\t', 
                       f'high score: {max(high_scores)}')
