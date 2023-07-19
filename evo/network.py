@@ -72,7 +72,8 @@ class Evo:
                             child = parent0[0].reproduce(type='asexual')                        
                             child.mutate(mutation_rate=mutation_rate)
                             self.agents.append(child)
-            if generation % 1000 == 0:
+            
+            if generation % 500 == 0:
                 print(f'Generation {generation}/{n_generations}\t', 
                       f'high score: {max(high_scores)}')
 

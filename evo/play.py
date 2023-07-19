@@ -1,14 +1,21 @@
 import random
-import math
 import numpy as np
 
+from .entity import Agent
 
-def play_round(agent, field_size=10, fail_reward=0.5, time_limit=None):
+
+def play_round(agent: Agent, 
+               field_size: int=10, 
+               fail_reward: float=0.5, 
+               time_limit: float=None):
+    
     if time_limit is None:
         time_limit = int(field_size * 2.5)
+        
     food_exists = False
     time_remaining = time_limit
     agent.reset()
+    
     while time_remaining > 0:
         
         if not food_exists:
@@ -40,7 +47,7 @@ def play_round(agent, field_size=10, fail_reward=0.5, time_limit=None):
             
         time_remaining -= 1 
         
-    if agent.score == 0:
+    if not agent.score:
         agent.score +=  fail_reward * (min_distance(food_pos, 
                                                     agent.pos, 
                                                     field_size)) / field_size
