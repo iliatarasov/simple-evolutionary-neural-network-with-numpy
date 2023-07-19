@@ -10,8 +10,9 @@ class Agent:
         self.field_size = field_size
         
     def forward(self, board):
-        value = np.maximum(0, np.matmul(board.flatten().T, self.weights) + self.biases)
-        return np.argmax(value)
+        value = np.matmul(board.flatten().T, self.weights) + self.biases
+        softmax = np.exp(value) / (np.exp(value).sum() + 1e-6)
+        return softmax
         
     def mutate(self, mutation_rate=0.005):
         self.weights += np.random.randn(*self.weights.shape) * mutation_rate
