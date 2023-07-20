@@ -6,4 +6,6 @@ The game consists of an environment in the form of a wraparound square field and
 
 Neural network agents collect food, best ones get to reproduce and pass their 'genes' to theis successors. Each new generation receives random mutations and the hope is that this process will direct the network towards a well-trained state.
 
+Please leave a star if you liked the project and feel free to fork. 
+
 IMPORTANT: Python version >= 3.11 is required.
