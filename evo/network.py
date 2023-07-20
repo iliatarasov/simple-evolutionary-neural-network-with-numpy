@@ -77,6 +77,7 @@ class Evo:
             
             if pairing_type == 'random':
                 random.shuffle(reproducing_agents)
+                
             #tracking the best in generation
             best_agents.append(reproducing_agents[0][0])
             high_scores.append(reproducing_agents[0][1])
@@ -89,13 +90,13 @@ class Evo:
                     for parent1, parent2 in zip(parent, parent):
                         for _ in range(int(2 / reproducing_percentage)):
                             child = parent1[0].reproduce(parent2[0], 
-                                                        type='sexual')
+                                                        reproduction_type='sexual')
                             child.mutate(mutation_rate=mutation_rate)
                             self.agents.append(child)
                 case 'asexual':
                     for parent0 in parent:
                         for _ in range(int(1 / reproducing_percentage)):
-                            child = parent0[0].reproduce(type='asexual')                        
+                            child = parent0[0].reproduce(reproduction_type='asexual')                        
                             child.mutate(mutation_rate=mutation_rate)
                             self.agents.append(child)
             
